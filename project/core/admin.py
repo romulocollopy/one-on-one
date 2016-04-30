@@ -1,3 +1,4 @@
 from django.contrib import admin
+from core.models import Boby
 
-# Register your models here.
+admin.site.register(Boby)

@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+from core.models import Boby
 
-# Create your views here.
+
+class HomeView(ListView):
+    model = Boby
+    context_object_name = "boby_list"
