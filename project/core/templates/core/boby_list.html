@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boby on Boby generator</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td>Boby</td>
+                <td>Budy</td>
+                <td>Date</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for boby in boby_list %}
+            <tr>
+                <td>{{ boby }}</td>
+                <td>{{ boby.next }}</td>
+                <td><input type="date" name=date_{{ forloop.counter }}></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
