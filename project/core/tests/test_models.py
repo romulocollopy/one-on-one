@@ -41,7 +41,7 @@ class BobyModelTestCase(TestCase):
     def test_get_next_boby_gets_sleeping_boby(self):
         boby = mommy.make(Boby, id=42, _fill_optional=True)
         boby_buddy = mommy.make(Boby, id=23, _fill_optional=True)
-        mommy.make(BobyRelation, boby_inviter=boby, boby_invited=boby_buddy)
+        mommy.make(BobyRelation, inviter=boby, invited=boby_buddy)
         mommy.make(BobyRelation, _fill_optional=True, _quantity=5)
         next = boby.next()
         self.assertEquals(boby_buddy, next)

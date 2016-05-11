@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/1.9/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
-import os
 from pathlib import Path
+import decouple
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -24,9 +24,10 @@ BASE_DIR = Path(__file__).parents[0]
 SECRET_KEY = '0tm9i0!5$w#7yo_2-6+qlr$&tv0i8e-(ams@y-i5q(kv_^*xb('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = decouple.config('DEBUG', cast=bool, default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = decouple.config('ALLOWED_HOSTS', cast=decouple.Csv(),
+                                default="*.localhost, *.esharesinc.com")
 
 
 # Application definition
@@ -38,7 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 3rd party
+    'social.apps.django_app.default',
     'test_without_migrations',
+    'registration',
+
+    # project
     'core',
 ]
 
@@ -58,7 +65,7 @@ ROOT_URLCONF = 'urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,10 +73,26 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # Python Social Auth
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+AUTH_USER_MODEL = 'core.Boby'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social.backends.google.GoogleOAuth2',
+]
+
+KEY = decouple.config('GOOGLE_OAUTH_CLIENT_ID',
+                      default="")
+SECRET = decouple.config('GOOGLE_OAUTH_CLIENT_ID',
+                         default="")
 
 WSGI_APPLICATION = 'wsgi.application'
 
@@ -87,6 +110,7 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -109,11 +133,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = decouple.config("TIMEZONE", default='America/Los_Angeles')
 
-USE_I18N = True
+USE_I18N = False
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 

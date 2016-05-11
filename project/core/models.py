@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 
 class BobyQuerySet(models.QuerySet):
@@ -26,17 +26,16 @@ class BobyQuerySet(models.QuerySet):
 
 
 class BobyRelation(models.Model):
-    boby_inviter = models.ForeignKey('Boby', related_name="inviter")
-    boby_invited = models.ForeignKey('Boby', related_name="invited")
+    inviter = models.ForeignKey('Boby', related_name="inviter")
+    invited = models.ForeignKey('Boby', related_name="invited")
     date = models.DateTimeField(null=True, blank=True)
 
 
-class Boby(models.Model):
-    user = models.ForeignKey(User)
+class Boby(AbstractUser):
     buddies = models.ManyToManyField(
         'self',
         through=BobyRelation,
-        through_fields=('boby_inviter', 'boby_invited'),
+        through_fields=('inviter', 'invited'),
         symmetrical=False,
     )
 
@@ -54,15 +53,15 @@ class Boby(models.Model):
     def _add_buddy(self, buddy):
 
         BobyRelation.objects.create(
-            boby_inviter=self,
-            boby_invited=buddy,
+            inviter=self,
+            invited=buddy,
         )
 
         BobyRelation.objects.create(
-            boby_inviter=buddy,
-            boby_invited=self,
+            inviter=buddy,
+            invited=self,
         )
         return buddy
 
     def __str__(self):
-        return self.user.get_full_name() or self.user.username
+        return self.get_full_name() or self.username

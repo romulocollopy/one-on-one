@@ -1,3 +1,4 @@
 dj-database-url==0.4.1
 Django==1.9.5
 python-decouple==3.0
+python-social-auth==0.2.19
