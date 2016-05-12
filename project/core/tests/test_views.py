@@ -26,4 +26,8 @@ class BobyViewTestCase(TestViewsMixIn, TestCase):
 class ProfileViewTestCase(TestViewsMixIn, TestCase):
 
     def setUp(self):
+        password = '123'
+        Boby.objects.create_user(username="boby", password=password)
+        self.client.login(username='boby', password=password)
+
         self.url = reverse('profile')
