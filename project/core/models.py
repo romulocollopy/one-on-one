@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 
 
 class BobyQuerySet(models.QuerySet):
@@ -25,6 +25,18 @@ class BobyQuerySet(models.QuerySet):
         ).order_by('?').first()
 
 
+class BobyManager(UserManager):
+
+    def get_queryset(self):
+        return BobyQuerySet(self.model, using=self._db)
+
+    def sleeping(self, boby):
+        return self.get_queryset().sleeping(boby)
+
+    def next(self, boby):
+        return self.get_queryset().next(boby)
+
+
 class BobyRelation(models.Model):
     inviter = models.ForeignKey('Boby', related_name="inviter")
     invited = models.ForeignKey('Boby', related_name="invited")
@@ -39,7 +51,7 @@ class Boby(AbstractUser):
         symmetrical=False,
     )
 
-    objects = BobyQuerySet.as_manager()
+    objects = BobyManager()
 
     def next(self):
         sleeping = self.__class__.objects.sleeping(self)

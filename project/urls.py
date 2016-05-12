@@ -16,10 +16,11 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from core import views as core
-from social.apps.django_app import urls
 
 urlpatterns = [
     url(r'^$', core.HomeView.as_view(), name='home'),
-    url('^social/', include('social.apps.django_app.urls', namespace='social')),
+    url(r'^profile/$', core.ProfileView.as_view(), name='profile'),
+    url('^social/', include('social.apps.django_app.urls',
+                            namespace='social')),
     url(r'^admin/', admin.site.urls),
 ]

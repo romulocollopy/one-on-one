@@ -83,16 +83,20 @@ TEMPLATES = [
 ]
 
 AUTH_USER_MODEL = 'core.Boby'
+SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'social.backends.google.GoogleOAuth2',
 ]
 
-KEY = decouple.config('GOOGLE_OAUTH_CLIENT_ID',
-                      default="")
-SECRET = decouple.config('GOOGLE_OAUTH_CLIENT_ID',
-                         default="")
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = decouple.config('GOOGLE_OAUTH_CLIENT_ID',
+                                                default="")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = decouple.config(
+    'GOOGLE_OAUTH_CLIENT_SECRET',
+    default="")
+
+LOGIN_REDIRECT_URL = '/profile/'
 
 WSGI_APPLICATION = 'wsgi.application'
 
