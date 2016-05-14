@@ -21,11 +21,14 @@
             <tr>
                 <td>{{ boby }}</td>
                 <td>{{ boby.next }}</td>
-                <td><input type="date" name=date_{{ forloop.counter }}></td>
+                <td><input type="date" name="boby_{{ boby.id }}"></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% endblock content %}
+    <script source="{% static 'js/jquery.min.js' %}">
+    <script source="{% static 'js/js.cookies.js' %}">
+    <script source="{% static 'js/ajax.js' %}">
 </body>
 </html>
