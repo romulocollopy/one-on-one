@@ -13,6 +13,13 @@ class TestViewsMixin:
         self.assertEqual(200, resp.status_code)
 
 
+class LoginMixin:
+    def login(self):
+        password = '123'
+        Boby.objects.create_user(username="boby", password=password)
+        self.client.login(username='boby', password=password)
+
+
 class BobyViewTestCase(TestViewsMixin, TestCase):
 
     def setUp(self):
@@ -25,22 +32,17 @@ class BobyViewTestCase(TestViewsMixin, TestCase):
         self.assertEqual(bobys.model, Boby)
 
 
-class ProfileViewTestCase(TestViewsMixin, TestCase):
+class ProfileViewTestCase(LoginMixin, TestViewsMixin, TestCase):
 
     def setUp(self):
-        password = '123'
-        Boby.objects.create_user(username="boby", password=password)
-        self.client.login(username='boby', password=password)
-
+        self.login()
         self.url = reverse('profile')
 
 
-class SaveOneOnOneViewTestCase(TestCase):
+class SaveOneOnOneViewTestCase(LoginMixin, TestCase):
 
     def setUp(self):
-        password = '123'
-        Boby.objects.create_user(username="boby", password=password)
-        self.client.login(username='boby', password=password)
+        self.login()
         self.url = reverse('save')
         self.form_data = {'boby_pk': 1, 'buddy_pk': 3}
 
@@ -67,4 +69,3 @@ class SaveOneOnOneViewTestCase(TestCase):
         form.return_value.is_valid.return_value = False
         self.client.post(self.url, self.form_data)
         form.return_value.save_object.assert_not_called()
-
