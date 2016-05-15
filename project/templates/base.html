@@ -11,9 +11,9 @@
     <table>
         <thead>
             <tr>
-                <td>Boby</td>
-                <td>Buddy</td>
-                <td>Date</td>
+                <td>Person</td>
+                <td>Next OneOnOne</td>
+                <td>Mark as done</td>
             </tr>
         </thead>
         <tbody>
@@ -22,8 +22,8 @@
                 {% csrf_token %}
                 <tr>
                     <td>{{ boby }}</td>
-                    <td>{{ boby.next }}</td>
-                    <td><button type="submit">Done</button><td>
+                    <td>{{ boby.next | default:"You're good" }}</td>
+                    <td>{% if boby.next %}<button type="submit">Done</button>{% endif %}<td>
                 </tr>
                 <input type="hidden" name="boby_pk" value="{{ boby.id }}">
                 <input type="hidden" name="buddy_pk" value="{{ boby.next.id }}">
