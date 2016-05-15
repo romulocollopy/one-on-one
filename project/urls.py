@@ -19,8 +19,12 @@ from core import views as core
 
 urlpatterns = [
     url(r'^$', core.HomeView.as_view(), name='home'),
+    url(r'^save/$', core.SaveOneOnOneView.as_view(), name='save'),
+    url(r'^login/$', core.LoginView.as_view(), name='login'),
+    url(r'^logout/$', core.LogoutView.as_view(), name='logout'),
     url(r'^profile/$', core.ProfileView.as_view(), name='profile'),
-    url('^social/', include('social.apps.django_app.urls',
-                            namespace='social')),
+    url(r'^social/', include('social.apps.django_app.urls',
+                             namespace='social')),
+
     url(r'^admin/', admin.site.urls),
 ]

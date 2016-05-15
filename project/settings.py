@@ -142,6 +142,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = decouple.config(
     default="")
 
 LOGIN_REDIRECT_URL = '/profile/'
+LOGIN_URL = '/login/'
 
 WSGI_APPLICATION = 'wsgi.application'
 

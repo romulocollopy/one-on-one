@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
+from django.utils import timezone
 
 
 class BobyQuerySet(models.QuerySet):
@@ -37,10 +38,29 @@ class BobyManager(UserManager):
         return self.get_queryset().next(boby)
 
 
+class BobyRelationManager(models.Manager):
+
+    def update_relation(self, boby_pk, buddy_pk):
+        relation = self.get_queryset().get(
+            inviter_id=boby_pk,
+            invited_id=buddy_pk,
+        )
+        r_relation = self.get_queryset().get(
+            invited_id=boby_pk,
+            inviter_id=buddy_pk,
+        )
+        relation.date = timezone.now()
+        r_relation.date = timezone.now()
+        relation.save()
+        r_relation.save()
+
+
 class BobyRelation(models.Model):
     inviter = models.ForeignKey('Boby', related_name="inviter")
     invited = models.ForeignKey('Boby', related_name="invited")
     date = models.DateTimeField(null=True, blank=True)
+
+    objects = BobyRelationManager()
 
 
 class Boby(AbstractUser):
@@ -60,9 +80,9 @@ class Boby(AbstractUser):
 
         boby = self.__class__.objects.next(self)
         if boby:
-            return self._add_buddy(boby)
+            return self.add_buddy(boby)
 
-    def _add_buddy(self, buddy):
+    def add_buddy(self, buddy):
 
         BobyRelation.objects.create(
             inviter=self,

@@ -18,15 +18,23 @@
         </thead>
         <tbody>
             {% for boby in boby_list %}
-            <tr>
-                <td>{{ boby }}</td>
-                <td>{{ boby.next }}</td>
-                <td><input type="date" name="boby_{{ boby.id }}"></td>
-            </tr>
+            <form action="{% url 'save' %}" method="POST">
+                {% csrf_token %}
+                <tr>
+                    <td>{{ boby }}</td>
+                    <td>{{ boby.next }}</td>
+                    <td><button type="submit">Done</button><td>
+                </tr>
+                <input type="hidden" name="boby_pk" value="{{ boby.id }}">
+                <input type="hidden" name="buddy_pk" value="{{ boby.next.id }}">
+            </form>
             {% endfor %}
         </tbody>
     </table>
     {% endblock content %}
+    <p>
+        <a href="{% url 'logout' %}">Hasta la vista baby</a>
+    </p>
     <script source="{% static 'js/jquery.min.js' %}">
     <script source="{% static 'js/js.cookies.js' %}">
     <script source="{% static 'js/ajax.js' %}">
