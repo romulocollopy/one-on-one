@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 from core.models import Boby
 from core.forms import OneOnOneForm
@@ -36,7 +37,6 @@ class SaveOneOnOneView(FormMixin, View):
         return super().dispatch(*args, **kwargs)
 
     def get_success_url(self):
-        from django.core.urlresolvers import reverse
         return reverse('home')
 
     def post(self, request):
@@ -60,6 +60,5 @@ class LoginView(TemplateView):
 class LogoutView(View):
 
     def get(self, request, *args, **kwargs):
-        from django.core.urlresolvers import reverse
         logout(request)
         return HttpResponseRedirect(reverse("home"))
