@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     # 3rd party
     'social.apps.django_app.default',
     'test_without_migrations',
-    'registration',
 
     # project
     'core',
