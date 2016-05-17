@@ -22,7 +22,13 @@
                 <tr>
                     <td>{{ boby }}</td>
                     <td>{{ boby.next | default:"You're good" }}</td>
-                    <td>{% if boby.next %}<button type="submit">Done</button>{% endif %}<td>
+                    <td>
+                        {% if boby.next %}
+                            <button type="submit">Done</button>
+                        {% else %}
+                            <img src="{% static 'boby.png' %}" style="width: 20px; height: 20px" />
+                        {% endif %}
+                    </td>
                 </tr>
                 <input type="hidden" name="boby_pk" value="{{ boby.id }}">
                 <input type="hidden" name="buddy_pk" value="{{ boby.next.id }}">
