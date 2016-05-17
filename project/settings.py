@@ -28,7 +28,7 @@ SECRET_KEY = decouple.config("SECRET_KEY", default='0tm9i0!5$w#7yo_2-6+qlr$&tv0i
 DEBUG = decouple.config('DEBUG', cast=bool, default=False)
 
 ALLOWED_HOSTS = decouple.config('ALLOWED_HOSTS', cast=decouple.Csv(),
-                                default="*.localhost, *.esharesinc.com")
+                                default=['.localhost', 'esharesinc.com'])
 
 
 # Application definition
@@ -200,4 +200,3 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [str(BASE_DIR / 'static')]
 STATIC_ROOT = str(BASE_DIR / 'static_collected')
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
