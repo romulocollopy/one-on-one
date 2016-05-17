@@ -30,9 +30,14 @@
             {% endfor %}
         </tbody>
     </table>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Hasta la vista baby</a>
+            <a href="{% url 'profile' %}">My profile</a>
+        {% else %}
+            <a href="{% url 'login' %}">login</a>
+        {% endif %}
     {% endblock content %}
     <p>
-        <a href="{% url 'logout' %}">Hasta la vista baby</a>
     </p>
     <script source="{% static 'js/jquery.min.js' %}">
     <script source="{% static 'js/js.cookies.js' %}">
