@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).parents[0]
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0tm9i0!5$w#7yo_2-6+qlr$&tv0i8e-(ams@y-i5q(kv_^*xb('
+SECRET_KEY = decouple.config("SECRET_KEY", default='0tm9i0!5$w#7yo_2-6+qlr$&tv0i8e-(ams@y-i5q(kv_^*xb(')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = decouple.config('DEBUG', cast=bool, default=False)
