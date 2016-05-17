@@ -31,11 +31,8 @@ class BobyManager(UserManager):
     def get_queryset(self):
         return BobyQuerySet(self.model, using=self._db)
 
-    def sleeping(self, boby):
-        return self.get_queryset().sleeping(boby)
-
-    def next(self, boby):
-        return self.get_queryset().next(boby)
+    def __getattr__(self, attr):
+        return getattr(self.get_queryset(), attr)
 
 
 class BobyRelationManager(models.Manager):
