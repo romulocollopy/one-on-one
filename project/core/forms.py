@@ -1,5 +1,5 @@
 from django import forms
-from core.models import BobyRelation
+from .models import BobyRelation
 
 
 class OneOnOneForm(forms.Form):

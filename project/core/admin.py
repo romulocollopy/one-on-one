@@ -1,6 +1,6 @@
 from django.contrib import admin
-from core.models import Boby
 from django.contrib.auth.admin import UserAdmin
+from .models import Boby
 
 
 class BobyAdmin(UserAdmin):

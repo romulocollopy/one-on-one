@@ -6,8 +6,8 @@ from django.utils.decorators import method_decorator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from core.models import Boby
-from core.forms import OneOnOneForm
+from .models import Boby
+from .forms import OneOnOneForm
 
 
 class HomeView(ListView):

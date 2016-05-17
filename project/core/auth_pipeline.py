@@ -1,4 +1,3 @@
-import json
 from social.exceptions import AuthForbidden
 
 

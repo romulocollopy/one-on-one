@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'test_without_migrations',
 
     # project
-    'core',
+    'project.core',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -60,7 +60,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'project.urls'
 
 TEMPLATES = [
     {
