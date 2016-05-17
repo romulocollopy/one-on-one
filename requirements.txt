@@ -4,3 +4,4 @@ python-decouple==3.0
 python-social-auth==0.2.19
 django-test-without-migrations==0.4
 psycopg2==2.6.1
+whitenoise==3.1
