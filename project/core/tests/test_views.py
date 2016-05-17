@@ -3,7 +3,7 @@ import mock
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from model_mommy import mommy
-from core.models import Boby
+from project.core.models import Boby
 
 
 class TestViewsMixin:
@@ -46,25 +46,25 @@ class SaveOneOnOneViewTestCase(LoginMixin, TestCase):
         self.url = reverse('save')
         self.form_data = {'boby_pk': 1, 'buddy_pk': 3}
 
-    @mock.patch('core.views.OneOnOneForm.is_valid')
+    @mock.patch('project.core.views.OneOnOneForm.is_valid')
     def test_200_in_invalid_data(self, is_valid):
         is_valid.return_value = False
         resp = self.client.post(self.url, self.form_data)
         self.assertEqual(200, resp.status_code)
 
-    @mock.patch('core.views.SaveOneOnOneView.get_form')
+    @mock.patch('project.core.views.SaveOneOnOneView.get_form')
     def test_200_in_valid_data(self, form):
         form.return_value.is_valid.return_value = True
         resp = self.client.post(self.url, self.form_data)
         self.assertRedirects(resp, "/")
 
-    @mock.patch('core.views.SaveOneOnOneView.get_form')
+    @mock.patch('project.core.views.SaveOneOnOneView.get_form')
     def test_form_save_is_called_in_valid_data(self, form):
         form.return_value.is_valid.return_value = True
         self.client.post(self.url, self.form_data)
         form.return_value.save_object.assert_called_once_with()
 
-    @mock.patch('core.views.SaveOneOnOneView.get_form')
+    @mock.patch('project.core.views.SaveOneOnOneView.get_form')
     def test_form_save_is_not_called_in_valid_data(self, form):
         form.return_value.is_valid.return_value = False
         self.client.post(self.url, self.form_data)

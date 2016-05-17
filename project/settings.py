@@ -99,7 +99,7 @@ SOCIAL_AUTH_PIPELINE = (
     # Verifies that the current auth process is valid within the current
     # project, this is where emails and domains whitelists are applied (if
     # defined).
-    'core.auth_pipeline.auth_allowed',
+    'project.core.auth_pipeline.auth_allowed',
 
     # Checks if the current social-account is already associated in the site.
     'social.pipeline.social_auth.social_user',

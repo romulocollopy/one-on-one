@@ -1,6 +1,6 @@
 import mock
 from django.test import TestCase
-from core.forms import OneOnOneForm
+from project.core.forms import OneOnOneForm
 
 
 class OneOnOneFormTestCase(TestCase):
@@ -17,7 +17,7 @@ class OneOnOneFormTestCase(TestCase):
         valid = form.is_valid()
         self.assertFalse(valid)
 
-    @mock.patch('core.forms.BobyRelation')
+    @mock.patch('project.core.forms.BobyRelation')
     def test_form_save_objects(self, BobyRelation):
         valid_data = {'boby_pk': 1, 'buddy_pk': 3}
         form = OneOnOneForm()

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from core.models import Boby, BobyRelation
+from project.core.models import Boby, BobyRelation
 from model_mommy import mommy
 
 
