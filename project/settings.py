@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # 3rd party
     'social.apps.django_app.default',
     'test_without_migrations',
+    'rules.apps.AutodiscoverRulesConfig',
 
     # project
     'project.core',
@@ -131,6 +132,7 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 AUTHENTICATION_BACKENDS = [
+    'rules.permissions.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
     'social.backends.google.GoogleOAuth2',
 ]

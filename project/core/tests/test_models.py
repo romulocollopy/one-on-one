@@ -56,7 +56,8 @@ class BobyRelationTestCase(TestCase):
         mommy.make(BobyRelation, inviter=self.boby_buddy, invited=self.boby)
 
     def test_update_relation(self):
-        BobyRelation.objects.update_relation(self.boby.id, self.boby_buddy.id)
+        BobyRelation.objects.update_relation(self.boby, self.boby.id,
+                                             self.boby_buddy.id)
 
         br1 = BobyRelation.objects.get(
             inviter=self.boby.id,

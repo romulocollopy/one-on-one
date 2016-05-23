@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.utils import timezone
+from django.core.exceptions import PermissionDenied
 
 
 class BobyQuerySet(models.QuerySet):
@@ -37,7 +38,16 @@ class BobyManager(UserManager):
 
 class BobyRelationManager(models.Manager):
 
-    def update_relation(self, boby_pk, buddy_pk):
+    def update_relation(self, boby, boby_pk, buddy_pk):
+
+        relation = self.model.objects.get(
+            inviter=boby_pk,
+            invited=buddy_pk,
+        )
+
+        if not boby.has_perm('core.change_bobyrelation', relation):
+            raise PermissionDenied
+
         relation = self.get_queryset().get(
             inviter_id=boby_pk,
             invited_id=buddy_pk,
