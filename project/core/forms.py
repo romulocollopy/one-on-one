@@ -7,25 +7,23 @@ from .models import BobyRelation, Boby
 class OneOnOneForm(forms.Form):
     boby_pk = forms.IntegerField()
     buddy_pk = forms.IntegerField()
+    create_relation = forms.NullBooleanField()
 
     def is_valid(self, boby, *args, **kwargs):
-        valid = super().is_valid(*args, **kwargs)
-        if not valid:
-            return False
-
-        relation = BobyRelation.objects.get(
-            inviter=self.cleaned_data['boby_pk'],
-            invited=self.cleaned_data['buddy_pk']
-        )
-
-        if boby.has_perm('core.change_bobyrelation', relation):
-            self.boby = boby
-            return True
-
-        raise PermissionDenied
+        self.boby = boby
+        return super().is_valid(*args, **kwargs)
 
     def save_object(self):
+        if self.cleaned_data.pop('create_relation') is True:
+            self._create_relation()
         BobyRelation.objects.update_relation(self.boby, **self.cleaned_data)
+
+    def _create_relation(self):
+        BobyRelation.objects.create(inviter_id=self.cleaned_data['boby_pk'],
+                                    invited_id=self.cleaned_data['buddy_pk'])
+
+        BobyRelation.objects.create(invited_id=self.cleaned_data['boby_pk'],
+                                    inviter_id=self.cleaned_data['buddy_pk'])
 
 
 class UploadUsersForm(forms.Form):

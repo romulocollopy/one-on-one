@@ -3,7 +3,16 @@
 <p>I am {{ user }}, and I shall OneonOne with:</p>
 <ul>
 {% for candidate in candidates %}
-    <li>{{ candidate }}
+    <form action="{% url 'save' %}" method="POST">
+        {% csrf_token %}
+        <li>{{ candidate }}
+            <button type="submit">Done</button>
+        </li>
+        <input type="hidden" name="boby_pk" value="{{ user.id }}">
+        <input type="hidden" name="buddy_pk" value="{{ candidate.id }}">
+        <input type="hidden" name="create_relation" value="True">
+
+    </form>
 {% endfor %}
 </ul>
 {% endblock content %}
