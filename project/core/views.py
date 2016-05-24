@@ -80,3 +80,15 @@ class UploadUsersView(FormMixin, TemplateView):
 
     def get_success_url(self):
         return reverse('home')
+
+
+class CandidatesView(ListView):
+    template_name = 'core/candidates.html'
+    context_object_name = 'candidates'
+
+    def get_queryset(self):
+        return Boby.objects.candidates(self.request.user)
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)

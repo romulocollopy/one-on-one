@@ -16,7 +16,8 @@ class TestViewGetMixin:
 class LoginMixin:
     def login(self):
         password = '123'
-        Boby.objects.create_user(username="boby", password=password)
+        self.boby = Boby.objects.create_user(username="boby",
+                                             password=password)
         self.client.login(username='boby', password=password)
 
 
@@ -94,3 +95,15 @@ class UploadBobyViewTestCase(LoginMixin, TestViewGetMixin, TestCase):
         mock_form.return_value.is_valid.return_value = False
         resp = self.client.post(self.url)
         self.assertEqual(200, resp.status_code)
+
+
+class CandidatesViewTestCase(LoginMixin, TestViewGetMixin, TestCase):
+
+    def setUp(self):
+        self.login()
+        self.url = reverse('candidates')
+
+    @mock.patch('project.core.views.Boby.objects.candidates')
+    def test_candidates_is_called(self, mock_candidates):
+        self.client.get(self.url)
+        mock_candidates.assert_called_once_with(self.boby)

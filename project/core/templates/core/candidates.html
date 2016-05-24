@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<p>I am {{ user }}, and I shall OneonOne with:</p>
+<ul>
+{% for candidate in candidates %}
+    <li>{{ candidate }}
+{% endfor %}
+</ul>
+{% endblock content %}

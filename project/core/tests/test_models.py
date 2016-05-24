@@ -46,6 +46,14 @@ class BobyModelTestCase(TestCase):
         next = boby.next()
         self.assertEquals(boby_buddy, next)
 
+    def test_get_candidates_queryset(self):
+        boby = mommy.make(Boby, id=42, _fill_optional=True)
+        boby_buddy = mommy.make(Boby, id=23, _fill_optional=True)
+        mommy.make(BobyRelation, inviter=boby, invited=boby_buddy)
+        mommy.make(BobyRelation, _fill_optional=True, _quantity=5)
+        candidates = list(boby.candidates())
+        self.assertNotIn(boby_buddy, candidates)
+
 
 class BobyRelationTestCase(TestCase):
 

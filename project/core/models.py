@@ -19,12 +19,15 @@ class BobyQuerySet(models.QuerySet):
         if sleeping:
             return sleeping
 
+        return self.candidates(boby).order_by('?').first()
+
+    def candidates(self, boby):
         buddies_ids = boby.buddies.values_list('id', flat=True)
         return self.exclude(
             id=boby.id
         ).exclude(
             id__in=buddies_ids
-        ).order_by('?').first()
+        )
 
 
 class BobyManager(UserManager):
@@ -88,6 +91,9 @@ class Boby(AbstractUser):
         boby = self.__class__.objects.next(self)
         if boby:
             return self.add_buddy(boby)
+
+    def candidates(self):
+        return self.__class__.objects.candidates(self)
 
     def add_buddy(self, buddy):
 

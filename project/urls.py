@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^profile/$', core.ProfileView.as_view(), name='profile'),
     url(r'^social/', include('social.apps.django_app.urls',
                              namespace='social')),
+    url(r'^me/$', core.CandidatesView.as_view(), name='candidates'),
 
     url(r'^admin/', admin.site.urls),
 ]
