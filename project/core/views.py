@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from .models import Boby
-from .forms import OneOnOneForm
+from .forms import OneOnOneForm, UploadUsersForm
 
 
 class HomeView(ListView):
@@ -62,3 +62,21 @@ class LogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         return HttpResponseRedirect(reverse("home"))
+
+
+class UploadUsersView(FormMixin, TemplateView):
+    form_class = UploadUsersForm
+    template_name = "core/upload.html"
+
+    def post(self, request):
+        form = self.get_form()
+        if form.is_valid(request.user):
+            return self.form_valid(form)
+        return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.save()
+        return super(UploadUsersView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('home')

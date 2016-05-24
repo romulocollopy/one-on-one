@@ -13,5 +13,6 @@ def is_admin(boby):
     return boby.is_staff or boby.is_superuser
 
 rules.add_rule('can_change_bobyrelation', is_in_relation | is_admin)
+rules.add_rule('can_upload_users', is_admin)
 
 rules.add_perm('core.change_bobyrelation', is_in_relation | is_admin)

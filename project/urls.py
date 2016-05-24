@@ -20,6 +20,7 @@ from project.core import views as core
 urlpatterns = [
     url(r'^$', core.HomeView.as_view(), name='home'),
     url(r'^save/$', core.SaveOneOnOneView.as_view(), name='save'),
+    url(r'^upload/$', core.UploadUsersView.as_view(), name='upload_users'),
     url(r'^login/$', core.LoginView.as_view(), name='login'),
     url(r'^logout/$', core.LogoutView.as_view(), name='logout'),
     url(r'^profile/$', core.ProfileView.as_view(), name='profile'),

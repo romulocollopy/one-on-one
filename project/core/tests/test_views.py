@@ -6,7 +6,7 @@ from model_mommy import mommy
 from project.core.models import Boby
 
 
-class TestViewsMixin:
+class TestViewGetMixin:
 
     def test_200(self):
         resp = self.client.get(self.url)
@@ -20,7 +20,7 @@ class LoginMixin:
         self.client.login(username='boby', password=password)
 
 
-class BobyViewTestCase(TestViewsMixin, TestCase):
+class BobyViewTestCase(TestViewGetMixin, TestCase):
 
     def setUp(self):
         mommy.make(Boby, _quantity=10, _fill_optional=True)
@@ -32,7 +32,7 @@ class BobyViewTestCase(TestViewsMixin, TestCase):
         self.assertEqual(bobys.model, Boby)
 
 
-class ProfileViewTestCase(LoginMixin, TestViewsMixin, TestCase):
+class ProfileViewTestCase(LoginMixin, TestViewGetMixin, TestCase):
 
     def setUp(self):
         self.login()
@@ -69,3 +69,28 @@ class SaveOneOnOneViewTestCase(LoginMixin, TestCase):
         form.return_value.is_valid.return_value = False
         self.client.post(self.url, self.form_data)
         form.return_value.save_object.assert_not_called()
+
+
+class UploadBobyViewTestCase(LoginMixin, TestViewGetMixin, TestCase):
+
+    def setUp(self):
+        self.login()
+        self.url = reverse('upload_users')
+
+    @mock.patch('project.core.views.UploadUsersView.get_form')
+    def test_redirects_in_form_valid(self, mock_form):
+        mock_form.return_value.is_valid.return_value = True
+        resp = self.client.post(self.url)
+        self.assertRedirects(resp, reverse('home'))
+
+    @mock.patch('project.core.views.UploadUsersView.get_form')
+    def test_calls_save_in_form_valid(self, mock_form):
+        mock_form.return_value.is_valid.return_value = True
+        self.client.post(self.url)
+        mock_form.return_value.save.assert_called_once_with()
+
+    @mock.patch('project.core.views.UploadUsersView.get_form')
+    def test_stays_on_page_in_form_invalid(self, mock_form):
+        mock_form.return_value.is_valid.return_value = False
+        resp = self.client.post(self.url)
+        self.assertEqual(200, resp.status_code)

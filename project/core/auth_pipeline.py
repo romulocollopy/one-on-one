@@ -1,4 +1,4 @@
-from djangio.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied
 
 
 def auth_allowed(backend, details, response, *args, **kwargs):
