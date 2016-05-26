@@ -37,6 +37,9 @@ class SaveOneOnOneView(FormMixin, View):
         return super().dispatch(*args, **kwargs)
 
     def get_success_url(self):
+        redirect = self.request.POST.get('next', None)
+        if redirect is not None:
+            return redirect
         return reverse('home')
 
     def post(self, request):

@@ -11,7 +11,7 @@
         <input type="hidden" name="boby_pk" value="{{ user.id }}">
         <input type="hidden" name="buddy_pk" value="{{ candidate.id }}">
         <input type="hidden" name="create_relation" value="True">
-
+        <input type="hidden" name="next" value="{% url 'candidates' %}">
     </form>
 {% endfor %}
 </ul>
