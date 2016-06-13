@@ -14,7 +14,7 @@ class OneOnOneForm(forms.Form):
         return super().is_valid(*args, **kwargs)
 
     def save_object(self):
-        if self.cleaned_data.pop('create_relation') is True:
+        if self.cleaned_data.get('create_relation') is True:
             self._create_relation()
         BobyRelation.objects.update_relation(self.boby, **self.cleaned_data)
 

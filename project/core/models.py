@@ -10,7 +10,8 @@ class BobyQuerySet(models.QuerySet):
         " A Sleepy Boby who didn't meet his buddy"
         return boby.buddies.filter(
             invited__date__isnull=True,
-            invited__id__isnull=False
+            invited__id__isnull=False,
+            is_active=True,
         ).first()
 
     def next(self, boby):
@@ -24,7 +25,8 @@ class BobyQuerySet(models.QuerySet):
     def candidates(self, boby):
         buddies_ids = boby.buddies.values_list('id', flat=True)
         return self.exclude(
-            id=boby.id
+            id=boby.id,
+            is_active=False,
         ).exclude(
             id__in=buddies_ids
         )
