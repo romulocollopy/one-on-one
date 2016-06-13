@@ -25,10 +25,9 @@ class BobyQuerySet(models.QuerySet):
     def candidates(self, boby):
         buddies_ids = boby.buddies.values_list('id', flat=True)
         return self.exclude(
-            id=boby.id,
-            is_active=False,
-        ).exclude(
-            id__in=buddies_ids
+            models.Q(id__in=buddies_ids) |
+            models.Q(id=boby.id) |
+            models.Q(is_active=False),
         )
 
 

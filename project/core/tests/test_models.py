@@ -55,6 +55,10 @@ class BobyModelTestCase(TestCase):
         candidates = list(boby.candidates())
         self.assertNotIn(boby_buddy, candidates)
 
+    def test_get_candidates_queryset_has_not_self(self):
+        boby = mommy.make(Boby, id=42, _fill_optional=True, is_active=True)
+        candidates = list(boby.candidates())
+        self.assertNotIn(boby, candidates)
 
 class BobyRelationTestCase(TestCase):
 
