@@ -23,7 +23,8 @@ urlpatterns = [
     url(r'^upload/$', core.UploadUsersView.as_view(), name='upload_users'),
     url(r'^login/$', core.LoginView.as_view(), name='login'),
     url(r'^logout/$', core.LogoutView.as_view(), name='logout'),
-    url(r'^profile/$', core.ProfileView.as_view(), name='profile'),
+    url(r'^profile/$', core.CandidatesView.as_view(), name='profile'),
+    # core.ProfileView.as_view()
     url(r'^social/', include('social.apps.django_app.urls',
                              namespace='social')),
     url(r'^me/$', core.CandidatesView.as_view(), name='candidates'),

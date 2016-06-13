@@ -14,9 +14,11 @@ class OneOnOneForm(forms.Form):
         return super().is_valid(*args, **kwargs)
 
     def save_object(self):
-        create_relation = self.cleaned_data.get('create_relation', False)
-        if create_relation is not None:
-            self.cleaned_data.pop('create_relation')
+
+        try:
+            create_relation = self.cleaned_data.pop('create_relation', None)
+        except KeyError:
+            create_relation = None
 
         if create_relation is True:
             self._create_relation()
