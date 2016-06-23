@@ -2,9 +2,24 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.utils import timezone
 from django.core.exceptions import PermissionDenied
+from django.conf import settings
+
+
+def using_postgres():
+    if settings.DATABASES['default']['ENGINE'] == \
+       'django.db.backends.postgresql_psycopg2':
+        return True
+    return False
 
 
 class BobyQuerySet(models.QuerySet):
+
+    def completed(self, boby):
+        if using_postgres():
+            return boby.buddies.order_by('boby__username') \
+                .distinct('boby__username')
+
+        return set(boby.buddies.all())
 
     def sleeping(self, boby):
         " A Sleepy Boby who didn't meet his buddy"
@@ -23,7 +38,11 @@ class BobyQuerySet(models.QuerySet):
         return self.candidates(boby).order_by('?').first()
 
     def candidates(self, boby):
-        buddies_ids = boby.buddies.values_list('id', flat=True)
+        if using_postgres():
+            buddies_ids = self.completed(boby).values_list('id', flat=True)
+        else:
+            buddies_ids = [buddy.id for buddy in self.completed(boby)]
+
         return self.exclude(
             models.Q(id__in=buddies_ids) |
             models.Q(id=boby.id) |
@@ -83,6 +102,9 @@ class Boby(AbstractUser):
     )
 
     objects = BobyManager()
+
+    def completed(self):
+        return self.__class__.objects.completed(self)
 
     def next(self):
         sleeping = self.__class__.objects.sleeping(self)
