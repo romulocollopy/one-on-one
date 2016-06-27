@@ -20,7 +20,7 @@
             <form action="{% url 'save' %}" method="POST">
                 {% csrf_token %}
                 <tr>
-                    <td>{{ boby }}</td>
+                    <td><a href="{% url 'candidates' username=boby.username %}">{{ boby }}</a></td>
                     <td>{{ boby.next | default:"You're good" }}</td>
                     <td>
                         {% if boby.next %}

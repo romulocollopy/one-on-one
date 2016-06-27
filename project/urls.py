@@ -27,7 +27,7 @@ urlpatterns = [
     # core.ProfileView.as_view()
     url(r'^social/', include('social.apps.django_app.urls',
                              namespace='social')),
-    url(r'^me/$', core.CandidatesView.as_view(), name='candidates'),
 
     url(r'^admin/', admin.site.urls),
+    url(r'^(?P<username>[\.\w-]+?)/$', core.CandidatesView.as_view(), name='candidates'),
 ]

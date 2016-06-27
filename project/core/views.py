@@ -85,12 +85,21 @@ class UploadUsersView(FormMixin, TemplateView):
         return reverse('home')
 
 
-class CandidatesView(ListView):
+class CandidatesView(DetailView):
     template_name = 'core/candidates.html'
-    context_object_name = 'candidates'
 
-    def get_queryset(self):
-        return Boby.objects.candidates(self.request.user)
+    def get_object(self):
+        username = self.kwargs.get('username', 'me')
+        if username == 'me':
+            return self.request.user
+
+        return Boby.objects.get(username=username)
+
+    def get_context_data(self, **kwargs):
+        return {
+            'candidates': Boby.objects.candidates(self.get_object()),
+            'boby': self.get_object(),
+        }
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

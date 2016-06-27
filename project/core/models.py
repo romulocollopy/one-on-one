@@ -30,6 +30,9 @@ class BobyQuerySet(models.QuerySet):
             models.Q(is_active=False),
         )
 
+    def __str__(self):
+        return self.get_full_name() or self.username
+
 
 class BobyManager(UserManager):
 
