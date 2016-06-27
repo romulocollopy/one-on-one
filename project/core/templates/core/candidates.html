@@ -15,4 +15,12 @@
     </form>
 {% endfor %}
 </ul>
+<p>These guys are awesome:</p>
+<ul>
+    {% for buddy in user.completed %}
+    <li>{{  buddy }}</li>
+    {% empty %}
+    <li>put yourself together, {{ user.first_name }}.</li>
+    {% endfor %}
+</ul>
 {% endblock content %}
